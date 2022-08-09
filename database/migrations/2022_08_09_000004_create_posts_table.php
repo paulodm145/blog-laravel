@@ -11,20 +11,21 @@ class CreatePostsTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        public function up() {
-        Schema::create('products', function (Blueprint $table) {
+    public function up() {
+        Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title', 250)->default('Lorem Ipsum')->nullable(false);
-            $table->string('photo', 250)->default('background_post.png')->nullable(false);
             $table->text('content')->nullable(false);
-            $table->integer('author')->nullable(false);
-            $table->integer('draft')->default(1)->nullable(false);
-            $table->boolean('visible')->nullable(false);
+
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+
+            $table->unsignedBigInteger('situacao_id')->nullable();
+            $table->foreign('situacao_id')->references('id')->on('situacoes');
+
             $table->timestamps();
+            $table->softDeletes();
         });
-    }
     }
 
     /**
